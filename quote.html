@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Request a Quote | MD Flooring Services</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo">
+                MD FLOORING <span>SERVICES</span>
+            </div>
+            <div class="mobile-menu-toggle" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html" onclick="closeMenu()">← Back to Home</a></li>
+                <li><a href="services.html" onclick="closeMenu()">Services</a></li>
+                <li><a href="about.html" onclick="closeMenu()">About</a></li>
+                <li><a href="contact.html" onclick="closeMenu()">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Quote Form Section -->
+    <section class="quote-section">
+        <div class="quote-container">
+            <div class="quote-header">
+                <h1>Request a Quote</h1>
+                <p>Fill out the form below and we'll get back to you within 24 hours</p>
+            </div>
+
+            <form class="quote-form" id="quoteForm">
+                <div class="success-message" id="successMessage">
+                    Thank you! Your quote request has been received. Please check your email for confirmation.
+                </div>
+
+                <div class="error-message" id="errorMessage" style="display: none;">
+                </div>
+
+                <div class="form-note">
+                    <strong>Note:</strong> All fields marked with <span style="color: var(--industrial-orange);">*</span> are required. We'll review your request and provide a detailed quote tailored to your specific needs.
+                </div>
+
+                <div class="form-group">
+                    <label for="name">Your Name <span class="required">*</span></label>
+                    <input type="text" id="name" name="name" required placeholder="Enter your full name">
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address <span class="required">*</span></label>
+                    <input type="email" id="email" name="email" required placeholder="your.email@example.com">
+                    <span class="email-error" style="color: #d32f2f; font-size: 0.9rem; display: none;">Please enter a valid email address</span>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Phone Number <span class="required">*</span></label>
+                    <input type="tel" id="phone" name="phone" required placeholder="+447852911636">
+                </div>
+
+                <div class="form-group">
+                    <label for="service">Type of Service <span class="required">*</span></label>
+                    <select id="service" name="service" required>
+                        <option value="">Select a service...</option>
+                        <option value="industrial-concrete">Industrial Concrete Pours</option>
+                        <option value="concrete-flooring">Concrete Flooring</option>
+                        <option value="epoxy-flooring">Epoxy Flooring</option>
+                        <option value="pouring-preparation">Pouring Preparation</option>
+                        <option value="multiple">Multiple Services</option>
+                        <option value="not-sure">Not Sure / Need Consultation</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="projectDate">Desired Project Start Date <span class="required">*</span></label>
+                    <input type="date" id="projectDate" name="projectDate" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="location">Project Location <span class="required">*</span></label>
+                    <input type="text" id="location" name="location" required placeholder="City or address">
+                </div>
+
+                <div class="form-group">
+                    <label for="sqFootage">Approximate Square Footage</label>
+                    <input type="text" id="sqFootage" name="sqFootage" placeholder="e.g., 5000 sq ft">
+                </div>
+
+                <div class="form-group">
+                    <label for="additionalInfo">Additional Information</label>
+                    <textarea 
+                        id="additionalInfo" 
+                        name="additionalInfo" 
+                        placeholder="Please provide details about your project: type of facility, specific requirements, timeline constraints, or any other relevant information that will help us provide an accurate quote."
+                    ></textarea>
+                </div>
+
+                <button type="submit" class="submit-button">Submit Quote Request</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 MD Flooring Services. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Set minimum date to today
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('projectDate').setAttribute('min', today);
+
+        // Email validation function
+        function validateEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
+
+        // Real-time email validation
+        document.getElementById('email').addEventListener('blur', function() {
+            const emailInput = this;
+            const emailError = document.querySelector('.email-error');
+            
+            if (emailInput.value && !validateEmail(emailInput.value)) {
+                emailError.style.display = 'block';
+                emailInput.style.borderColor = '#d32f2f';
+            } else {
+                emailError.style.display = 'none';
+                emailInput.style.borderColor = '';
+            }
+        });
+
+        // Form submission
+        document.getElementById('quoteForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const emailInput = document.getElementById('email');
+            const successMessage = document.getElementById('successMessage');
+            const errorMessage = document.getElementById('errorMessage');
+            
+            // Validate email before submission
+            if (!validateEmail(emailInput.value)) {
+                document.querySelector('.email-error').style.display = 'block';
+                emailInput.style.borderColor = '#d32f2f';
+                emailInput.focus();
+                return;
+            }
+            
+            // Get form data
+            const formData = new FormData(this);
+            
+            // Disable submit button
+            const submitButton = this.querySelector('button[type="submit"]');
+            submitButton.disabled = true;
+            submitButton.textContent = 'Sending...';
+            
+            // Send data to PHP backend
+            fetch('submit-quote.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    successMessage.textContent = data.message;
+                    successMessage.classList.add('show');
+                    successMessage.style.display = 'block';
+                    errorMessage.style.display = 'none';
+                    
+                    // Reset form
+                    document.getElementById('quoteForm').reset();
+                    
+                    // Scroll to success message
+                    successMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    
+                    // Hide message after 8 seconds
+                    setTimeout(() => {
+                        successMessage.classList.remove('show');
+                    }, 8000);
+                } else {
+                    errorMessage.textContent = data.message;
+                    errorMessage.style.display = 'block';
+                    errorMessage.style.background = '#ffebee';
+                    errorMessage.style.color = '#d32f2f';
+                    errorMessage.style.padding = '1rem';
+                    errorMessage.style.marginBottom = '1rem';
+                    errorMessage.style.borderRadius = '4px';
+                    successMessage.style.display = 'none';
+                }
+                
+                // Re-enable submit button
+                submitButton.disabled = false;
+                submitButton.textContent = 'Submit Quote Request';
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                errorMessage.textContent = 'An error occurred. Please try again or call us directly at +447852911636.';
+                errorMessage.style.display = 'block';
+                errorMessage.style.background = '#ffebee';
+                errorMessage.style.color = '#d32f2f';
+                errorMessage.style.padding = '1rem';
+                errorMessage.style.marginBottom = '1rem';
+                errorMessage.style.borderRadius = '4px';
+                
+                // Re-enable submit button
+                submitButton.disabled = false;
+                submitButton.textContent = 'Submit Quote Request';
+            });
+        });
+
+        function toggleMenu() {
+            const navLinks = document.getElementById('navLinks');
+            const toggle = document.querySelector('.mobile-menu-toggle');
+            navLinks.classList.toggle('active');
+            toggle.classList.toggle('active');
+        }
+
+        function closeMenu() {
+            const navLinks = document.getElementById('navLinks');
+            const toggle = document.querySelector('.mobile-menu-toggle');
+            navLinks.classList.remove('active');
+            toggle.classList.remove('active');
+        }
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const navLinks = document.getElementById('navLinks');
+            const toggle = document.querySelector('.mobile-menu-toggle');
+            const nav = document.querySelector('nav');
+            
+            if (!nav.contains(event.target) && navLinks.classList.contains('active')) {
+                closeMenu();
+            }
+        });
+
+        function handleSubmit(event) {
+            event.preventDefault();
+            
+            // Get form data
+            const formData = new FormData(event.target);
+            const data = Object.fromEntries(formData);
+            
+            // In a real implementation, you would send this data to your server
+            console.log('Quote Request Data:', data);
+            
+            // Show success message
+            const successMessage = document.getElementById('successMessage');
+            successMessage.classList.add('show');
+            
+            // Scroll to success message
+            successMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            
+            // Reset form
+            event.target.reset();
+            
+            // Hide success message after 5 seconds
+            setTimeout(() => {
+                successMessage.classList.remove('show');
+            }, 5000);
+        }
+
+        // Smooth scroll behavior for the entire page
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Reset menu state on page load to fix back button issue
+        window.addEventListener('DOMContentLoaded', function() {
+            const navLinks = document.getElementById('navLinks');
+            const toggle = document.querySelector('.mobile-menu-toggle');
+            if (navLinks && toggle) {
+                navLinks.classList.remove('active');
+                toggle.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us | MD Flooring Services</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo">
+                MD FLOORING <span>SERVICES</span>
+            </div>
+            <div class="mobile-menu-toggle" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html" onclick="closeMenu()">← Back to Home</a></li>
+                <li><a href="quote.html" class="nav-cta" onclick="closeMenu()">Start Your Project</a></li>
+                <li><a href="services.html" onclick="closeMenu()">Services</a></li>
+                <li><a href="about.html" onclick="closeMenu()">About</a></li>
+                <li><a href="contact.html" onclick="closeMenu()">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Page Hero -->
+    <section class="page-hero">
+        <h1>CONTACT <span>US</span></h1>
+        <p>Get in touch with our team today</p>
+    </section>
+
+    <!-- Contact Content -->
+    <section class="contact-page-content">
+        <div class="container">
+            <!-- Contact Form -->
+            <div class="contact-form-section-full">
+                <h2>Send Us a Message</h2>
+                <p class="contact-intro">Have a question or ready to start your project? Fill out the form below and we'll get back to you within 24 hours.</p>
+                
+                <form class="contact-page-form" id="contactForm">
+                    <div class="success-message" id="contactSuccessMessage">
+                        Thank you for contacting us! We'll get back to you within 24 hours.
+                    </div>
+
+                    <div class="error-message" id="contactErrorMessage" style="display: none;">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="firstName">First Name *</label>
+                            <input type="text" id="firstName" name="firstName" required placeholder="John">
+                        </div>
+                        <div class="form-group">
+                            <label for="lastName">Last Name *</label>
+                            <input type="text" id="lastName" name="lastName" required placeholder="Smith">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email Address *</label>
+                        <input type="email" id="email" name="email" required placeholder="john.smith@example.com">
+                        <span class="contact-email-error" style="color: #d32f2f; font-size: 0.9rem; display: none;">Please enter a valid email address</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">Phone Number *</label>
+                        <input type="tel" id="phone" name="phone" required placeholder="+447852911636">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="company">Company Name</label>
+                        <input type="text" id="company" name="company" placeholder="Your Company">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="subject">Subject *</label>
+                        <select id="subject" name="subject" required>
+                            <option value="">Select a subject...</option>
+                            <option value="quote">Request a Quote</option>
+                            <option value="question">General Question</option>
+                            <option value="existing">Existing Project</option>
+                            <option value="emergency">Emergency/Urgent</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message">Message *</label>
+                        <textarea 
+                            id="message" 
+                            name="message" 
+                            required 
+                            placeholder="Tell us about your project or question..."
+                            rows="6"
+                        ></textarea>
+                    </div>
+
+                    <button type="submit" class="submit-button">Send Message</button>
+                </form>
+            </div>
+
+            <!-- Contact Information - Moved Below Form -->
+            <div class="contact-info-section-below">
+                <div class="contact-info-block quick-quote-block">
+                    <h3>Need a Quick Quote?</h3>
+                    <div class="info-content">
+                        <p>For faster service on project quotes, use our dedicated quote request form.</p>
+                        <a href="quote.html" class="quick-quote-button">Request a Quote</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-logo">MD FLOORING SERVICES</div>
+        <p>&copy; 2026 MD Flooring Services. All rights reserved.</p>
+        <p>Licensed & Insured | Industrial Concrete & Epoxy Specialists</p>
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            const navLinks = document.getElementById('navLinks');
+            const toggle = document.querySelector('.mobile-menu-toggle');
+            navLinks.classList.toggle('active');
+            toggle.classList.toggle('active');
+        }
+
+        function closeMenu() {
+            const navLinks = document.getElementById('navLinks');
+            const toggle = document.querySelector('.mobile-menu-toggle');
+            navLinks.classList.remove('active');
+            toggle.classList.remove('active');
+        }
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const navLinks = document.getElementById('navLinks');
+            const toggle = document.querySelector('.mobile-menu-toggle');
+            const nav = document.querySelector('nav');
+            
+            if (!nav.contains(event.target) && navLinks.classList.contains('active')) {
+                closeMenu();
+            }
+        });
+
+        // Email validation function
+        function validateEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
+
+        // Real-time email validation
+        document.getElementById('email').addEventListener('blur', function() {
+            const emailInput = this;
+            const emailError = document.querySelector('.contact-email-error');
+            
+            if (emailInput.value && !validateEmail(emailInput.value)) {
+                emailError.style.display = 'block';
+                emailInput.style.borderColor = '#d32f2f';
+            } else {
+                emailError.style.display = 'none';
+                emailInput.style.borderColor = '';
+            }
+        });
+
+        // Form submission
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const emailInput = document.getElementById('email');
+            const successMessage = document.getElementById('contactSuccessMessage');
+            const errorMessage = document.getElementById('contactErrorMessage');
+            
+            // Validate email before submission
+            if (!validateEmail(emailInput.value)) {
+                document.querySelector('.contact-email-error').style.display = 'block';
+                emailInput.style.borderColor = '#d32f2f';
+                emailInput.focus();
+                return;
+            }
+            
+            // Get form data
+            const formData = new FormData(this);
+            
+            // Disable submit button
+            const submitButton = this.querySelector('button[type="submit"]');
+            submitButton.disabled = true;
+            submitButton.textContent = 'Sending...';
+            
+            // Send data to PHP backend
+            fetch('submit-contact.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    successMessage.textContent = data.message;
+                    successMessage.classList.add('show');
+                    successMessage.style.display = 'block';
+                    errorMessage.style.display = 'none';
+                    
+                    // Reset form
+                    document.getElementById('contactForm').reset();
+                    
+                    // Scroll to success message
+                    successMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    
+                    // Hide message after 8 seconds
+                    setTimeout(() => {
+                        successMessage.classList.remove('show');
+                    }, 8000);
+                } else {
+                    errorMessage.textContent = data.message;
+                    errorMessage.style.display = 'block';
+                    errorMessage.style.background = '#ffebee';
+                    errorMessage.style.color = '#d32f2f';
+                    errorMessage.style.padding = '1rem';
+                    errorMessage.style.marginBottom = '1rem';
+                    errorMessage.style.borderRadius = '4px';
+                    successMessage.style.display = 'none';
+                }
+                
+                // Re-enable submit button
+                submitButton.disabled = false;
+                submitButton.textContent = 'Send Message';
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                errorMessage.textContent = 'An error occurred. Please try again or call us directly at +447852911636.';
+                errorMessage.style.display = 'block';
+                errorMessage.style.background = '#ffebee';
+                errorMessage.style.color = '#d32f2f';
+                errorMessage.style.padding = '1rem';
+                errorMessage.style.marginBottom = '1rem';
+                errorMessage.style.borderRadius = '4px';
+                
+                // Re-enable submit button
+                submitButton.disabled = false;
+                submitButton.textContent = 'Send Message';
+            });
+        });
+        
+        // Reset menu state on page load to fix back button issue
+        window.addEventListener('DOMContentLoaded', function() {
+            const navLinks = document.getElementById('navLinks');
+            const toggle = document.querySelector('.mobile-menu-toggle');
+            if (navLinks && toggle) {
+                navLinks.classList.remove('active');
+                toggle.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>
